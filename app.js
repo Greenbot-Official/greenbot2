@@ -68,15 +68,15 @@ client.on('interactionCreate', async int => {
   // create user
   // try {
     if (!user) {
-      if (int.command.name == 'help') {
+      if (int.commandName == 'help') {
         user = await Users.create({ user_id: int.user.id });
-        userEffects = await UserEffects.create({ user_id: int.user.id })
+        userEffects = await UserEffects.create({ user_id: int.user.id });
         currency.set(int.user.id, user);
         if (config.author.includes(int.user.id)) {
-          user.addUniqueItem('god\_sword', 'w', null, 100, 'str', 1, null, null, 1)
-          user.addUniqueItem('wacking\_stick', 'w', 'mystery', 0, 'none', 0, null, null, 1)
-          user.balance += Number(100)
-          user.save()
+          user.addUniqueItem('god\_sword', 'w', null, 100, 'str', 1, null, null, 1);
+          user.addUniqueItem('wacking\_stick', 'w', 'mystery', 0, 'none', 0, null, null, 1);
+          user.balance += Number(100);
+          user.save();
         }
         func.logconsole(`initialized user ${int.user.id}`, client);
       } else {
@@ -102,12 +102,14 @@ client.on('interactionCreate', async int => {
   }
 
   //cooldowns the try statement broke it???????
-  // try {
-    if (!cooldowns.has(command.commandName)) {
-      cooldowns.set(command.commandName, new Collection());
+  let timestamps
+  let cooldownAmount
+  try {
+    if (!cooldowns.has(int.commandName)) {
+      cooldowns.set(int.commandName, new Collection());
     }
-    const timestamps = cooldowns.get(command.commandName);
-    const cooldownAmount = (command.cooldown || 1) * 1000;
+    timestamps = cooldowns.get(int.commandName);
+    cooldownAmount = (command.cooldown || 1) * 1000;
     if (timestamps.has(int.user.id) && (!config.tester.includes(int.user.id) && !config.author.includes(int.user.id))) {
       const expirationTime = timestamps.get(int.user.id) + cooldownAmount;
       if (int.createdAt < expirationTime) {
@@ -115,25 +117,25 @@ client.on('interactionCreate', async int => {
         return await int.reply({ content: `Too fast. Wait for ${timeLeft.toFixed(1)} more second${timeLeft.toFixed(1) > 1 ? 's' : ''} before reusing the \`/${int.commandName}\` command.`, ephemeral: true });
       }
     }
-  // } catch (error) {
-  //   func.error(error, client);
-  //   embededd.setDescription('There was an error while executing this command!');
-  //   return await int.reply({ embeds: [ embededd ], ephemeral: true });
-  // }
+  } catch (error) {
+    func.error(error, client);
+    embededd.setDescription('There was an error while executing this command!');
+    return await int.reply({ embeds: [ embededd ], ephemeral: true });
+  }
 
-  // if (user.curse) {
-  //   const curseTime = 60000;
-  //   const expirationTime = Number(user.curse_time) + curseTime;
-  //   if (int.createdAt > expirationTime) {
-  //     try {
-  //       await int.delete()
-  //       user.curse_time = Date.now();
-  //       user.save()
-  //     } catch (e) {
-  //       func.error(e, c)
-  //     }
-  //   }
-  // }
+  if (user.curse) {
+    const curseTime = 60000;
+    const expirationTime = Number(user.curse_time) + curseTime;
+    if (int.createdAt > expirationTime) {
+      try {
+        await int.delete()
+        user.curse_time = Date.now();
+        user.save()
+      } catch (e) {
+        func.error(e, c)
+      }
+    }
+  }
   
   const cause = func.updateEffects(int, user, userEffects)
   if (user.health <= 0) {
@@ -172,7 +174,6 @@ client.once('ready', async () => {
   }
   const storedBalances = await Users.findAll();
   storedBalances.forEach(b => currency.set(b.user_id, b));
-  console.log(`${new Date(Date.now())}: <console> - Logged in as ${client.user.tag} in ${(Date.now() - startTime) / 1000} seconds!`)
 
   client.user.setPresence({
     activity: { type: 'LISTENING', name: `${client.guilds.cache.size} servers. | ::help` }

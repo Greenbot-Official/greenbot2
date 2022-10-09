@@ -25,9 +25,9 @@ module.exports = {
       text2 = text2.replace(`${config.coolids[x]}`, `${config.coolnames[x]}`)
       if (text2.includes(config.coolids[x])) console.log('name change failed')
     }
-    this.writetoarchive(`${client.ws.ping}ms ${Date.now()}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds\n`)
-    client.channels.cache.get(config.log_channel).send(codeBlock(`${client.ws.ping}ms <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds`))
-    return console.log(`${client.ws.ping}ms ${new Date(Date.now())}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds`);
+    this.writetoarchive(`${client.ws.ping}ms ${Date.now()}: <console> - ${text2} in tempfix seconds\n`)
+    client.channels.cache.get(config.log_channel).send(codeBlock(`${client.ws.ping}ms <console> - ${text2} in tempfix / 1000} seconds`))
+    return console.log(`${client.ws.ping}ms ${new Date(Date.now())}: <console> - ${text2} in tempfix seconds`);
   },
   // Date.now() % (Date.now() / 86400) = seconds since day started idk ill add eventually
   writetoarchive: function (text) {
