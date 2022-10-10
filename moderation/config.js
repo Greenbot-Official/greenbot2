@@ -4,7 +4,7 @@ const { MessageEmbed, Permissions } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('config')
-    .setDescription('Change server settings.')
+    .setDescription('Change server settings')
     .addSubcommandGroup(subcommand =>
       subcommand.setName('logging')
       .setDescription('Sets the logging channel for warnings')
@@ -193,7 +193,7 @@ module.exports = {
           case 'setenabled':
             const enabled2 = await int.options.getBoolean("enabled");
             await func.setBadwordsEnabled(int.guild.id, enabled2);
-            embededd.setDescription(`Successfully ${enabled2 ? 'dis' : 'en'}abled badwords!`);
+            embededd.setDescription(`Successfully ${enabled2 ? 'en' : 'dis'}abled badwords!`);
             await int.reply({ embeds: [ embededd ] });
             return await func.modLog(int, `${enabled2 ? 'enabled' : 'disabled'} badwords!`, client);
         }
@@ -235,12 +235,15 @@ module.exports = {
             return await func.modLog(int, `set the punishment for ${warnings} warnings to ${punishment}!`, client);
           case 'view':
             const punishments = await func.getAllPunishments(int.guild.id);
-            const allNone = punishments => punishments.every( v => v === 0 || null)
-            if (punishments == -1 || allNone) {
-              embededd.setDescription("You have not set up any punishments yet!").setThumbnail('https://i.imgur.com/tDWLV66.png');
-              await int.reply({ embeds: [ embededd ] });
-              return await func.modLog(int, `tried to view punishments when none were set up!`, client);
-            }
+            const allNone = punishments => punishments.every(v => v === 0 || null)
+            console.log(punishments);
+            console.log(allNone);
+            console.log(punishments == -1 || allNone);
+            // if (punishments == -1 || allNone) {
+            //   embededd.setDescription("You have not set up any punishments yet!").setThumbnail('https://i.imgur.com/tDWLV66.png');
+            //   await int.reply({ embeds: [ embededd ] });
+            //   return await func.modLog(int, `tried to view punishments when none were set up!`, client);
+            // }
             for (const x in punishments) {
               switch (punishments[x]) {
                 case null:
@@ -267,6 +270,7 @@ module.exports = {
                   break;
                 case 7:
                   punishments[x] = 'one hour timeout';
+                  break;
               }
             }
             embededd.setDescription(`Punishments for ${int.guild.name} are:\n

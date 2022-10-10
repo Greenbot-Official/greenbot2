@@ -14,6 +14,7 @@ module.exports = {
       .setDescription('The reason to kick that user')
       .setRequired(false)),
   async execute(int, client) {
+    const app = require('../app')
     const embededd = new MessageEmbed()
       .setTitle('Kick')
       .setColor('#25c059');
@@ -33,19 +34,29 @@ module.exports = {
       await int.reply({ embeds: [ embededd ]});
       return await func.modLog(int, `tried to /ban someone higher than themselves!`, client);
     }
-  
-    int.guild.members.kick(user.id, `${reason}`).catch(async error => {
-      if (error.code == 50013) {
-        embededd.setDescription('The bot is unable to kick this person. This is usually because the person you tried to kick is the server owner or the bot itself.').setThumbnail('https://i.imgur.com/tDWLV66.png');
-        await int.reply({ embeds: [ embededd] });
-        return await func.modLog(int, `tried to ban ${int.guild.name}'s owner, <@${await int.guild.fetchOwner().id}>!`, client)
-      }
-      await func.error(error, int, client);
-    });
 
-  
+    if (int.guild.ownerId == user.id) {
+      embededd.setDescription('You cannot kick a server\'s owner!').setThumbnail('https://i.imgur.com/tDWLV66.png')
+      await int.reply({ embeds: [ embededd ] });
+      return await func.modLog(int, `tried to kick ${int.guild.name}'s owner, <@${await int.guild.fetchOwner().id}>!`, client)
+    }
+
+    if (int.guild.ownerId == app.client.user.id) {
+      embededd.setDescription('You cannot kick the bot!').setThumbnail('https://i.imgur.com/tDWLV66.png');
+      await int.reply({ embeds: [ embededd] });
+      return await func.modLog(int, `tried to kick the bot!`, client)
+    }
+
     embededd.setDescription(`Successfully kicked <@${user.id}> for ${reason}!`);
     await int.reply({ embeds: [ embededd ] });
-    return await func.modLog(int, `kicked <@${user.id}> from this server for ${reason}!`, client);
+    await func.modLog(int, `kicked <@${user.id}> from this server for ${reason}!`, client);
+
+    embededd.setDescription(`You have been kicked from ${int.guild.name} for ${reason}!`);
+    await user.createDM();
+    await user.send({ embeds: [ embededd ] });
+  
+    return int.guild.members.kick(user.id, `${reason}`);
+
+  
   },
 };

@@ -3,6 +3,8 @@ const config = require('../config.json');
 const { MessageEmbed, Permissions } = require('discord.js');
 const { codeBlock } = require('@discordjs/builders');
 const { Guild, Badwords, GuildSettings, Punishments } = require('../dbobjects.js');
+const app = require('../app')
+const errorChannel = await app.client.channels.get(config.errorChannelId);
 
 module.exports = {
   log: function (text, int, client) {
@@ -36,7 +38,9 @@ module.exports = {
     fs.appendFileSync(`logs/${require('../app').epicstartdate}/archives.txt`, text)
   },
   error: function (text, client) {
-    fs.appendFileSync(`logs/${require('../app').epicstartdate}/error.txt`, `${client.ws.ping}ms ${Date.now()}: ${text}\n`)
+    const message = `${client.ws.ping}ms ${Date.now()}: ${text}\n`;
+    errorChannel.send(`\`\`\`${message}\n\`\`\``)
+    fs.appendFileSync(`logs/${require('../app').epicstartdate}/error.txt`, message)
   },
   clearStatus: function (userEffects) {
     userEffects.burn = Number(0)
@@ -149,8 +153,7 @@ module.exports = {
 
     fs.appendFileSync('error.txt', text2 + '\n');
     console.log(text2);
-    const channel = await client.channel.fetch(config.errorChannelId);
-    return await channel.send(`\`\`\`${text2}\`\`\``);
+    return await errorChannel.send(`\`\`\`${text2}\`\`\``);
 
   },
 
@@ -332,7 +335,6 @@ module.exports = {
           embededd.setDescription(`<@${warneduser.id}> was just timed out for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });
         case 2:
-          await member.kick("Reached warn limit");
           if (logging_channel_id == -1) {
             embededd.setDescription(`<@${warneduser.id}> was just kicked from ${guild.name} and you do not have a logging channel set up. \nPlease use \`/config logging\` to set it up.`);
             owner = await guild.fetchOwner();
@@ -343,11 +345,11 @@ module.exports = {
           embededd.setDescription(`You were just kicked from ${guild.name} for having too many warnings!`);
           await member.createDM();
           await member.send({ embeds: [ embededd ] });
+          await member.kick("Reached warn limit");
 
           embededd.setDescription(`<@${warneduser.id}> was just kicked for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });
         case 3:
-          await member.ban({ days: 7, reason: "Too many warnings" });
           if (logging_channel_id == -1) {
             embededd.setDescription(`<@${warneduser.id}> was just temporarily banned in ${guild.name} and you do not have a logging channel set up. \nPlease use \`/config logging\` to set it up.`);
             owner = await guild.fetchOwner();
@@ -358,11 +360,11 @@ module.exports = {
           embededd.setDescription(`You were just banned for one week from ${guild.name} for having too many warnings!`);
           await member.createDM();
           await member.send({ embeds: [ embededd ] });
+          await member.ban({ days: 7, reason: "Too many warnings" });
 
           embededd.setDescription(`<@${warneduser.id}> was just temporarily banned for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });
         case 4:
-          await member.ban({ reason: "Too many warnings" });
           if (logging_channel_id == -1) {
             embededd.setDescription(`<@${warneduser.id}> was just banned in ${guild.name} and you do not have a logging channel set up. \nPlease use \`/config logging\` to set it up.`);
             owner = await guild.fetchOwner();
@@ -373,6 +375,7 @@ module.exports = {
           embededd.setDescription(`You were just perma-banned from ${guild.name} for having too many warnings!`);
           await member.createDM();
           await member.send({ embeds: [ embededd ] });
+          await member.ban({ reason: "Too many warnings" });
 
           embededd.setDescription(`<@${warneduser.id}> was just banned for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });
@@ -392,7 +395,6 @@ module.exports = {
           embededd.setDescription(`<@${warneduser.id}> was just timed out for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });
         case 6:
-          await member.ban({ days: 1, reason: "Too many warnings" });
           if (logging_channel_id == -1) {
             embededd.setDescription(`<@${warneduser.id}> was just temporarily banned in ${guild.name} and you do not have a logging channel set up. \nPlease use \`/config logging\` to set it up.`);
             owner = await guild.fetchOwner();
@@ -403,6 +405,7 @@ module.exports = {
           embededd.setDescription(`You were just banned for one week from ${guild.name} for having too many warnings!`);
           await member.createDM();
           await member.send({ embeds: [ embededd ] });
+          await member.ban({ days: 1, reason: "Too many warnings" });
 
           embededd.setDescription(`<@${warneduser.id}> was just temporarily banned for having too many warnings!`);
           return await logging_channel.send({ embeds: [ embededd ] });

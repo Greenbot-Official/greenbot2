@@ -202,5 +202,5 @@ Reflect.defineProperty(currency, 'getBalance', {
   },
 });
 
-module.exports = { getCommands, getEnchants, currency, epicstartdate }
+module.exports = { getCommands, getEnchants, currency, epicstartdate, client }
 client.login(config.token)

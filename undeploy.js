@@ -1,4 +1,5 @@
 const startTime = Date.now();
+console.log(`${new Date(startTime)}: <console> - Removing global application (/) commands...`);
 
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');

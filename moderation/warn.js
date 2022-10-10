@@ -86,7 +86,7 @@ module.exports = {
         await func.setWarns(int.guild.id, user.id, warns2);
         embededd.setDescription(`Successfully set <@${user.id}>'s warnings to ${warns2}!`);
         await int.reply({ embeds: [ embededd ] });
-        return await func.modLog(int, `set <@${user.id}'s warnings to ${warns2}!`, client);
+        return await func.modLog(int, `set <@${user.id}>'s warnings to ${warns2}!`, client);
       case 'view':
         const warns = await func.getManualWarns(int, user);
         embededd.setDescription(`<@${user.id}> has ${warns} warning${warns != 1 ? "s" : ""}.`);
