@@ -8,11 +8,20 @@ module.exports = {
     .addStringOption(options =>
       options.setName('stat')
         .setDescription('Stat to level up')
-        .setRequired(true)
-        .addChoice('health', 'h')
-        .addChoice('luck', 'l')
-        .addChoice('strength', 's')
-        .addChoice('dexterity', 'd'))
+        .addChoices({
+          name: 'heath',
+          value: 'h'
+        }, {
+          name: 'luck',
+          value: 'l'
+        }, {
+          name: 'strength',
+          value: 's'
+        }, {
+          name: 'dexterity',
+          value: 'd'
+        })
+        .setRequired(true))
     .addIntegerOption(options =>
       options.setName('amount')
         .setDescription('The number of times to level up')
