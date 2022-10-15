@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, Embed } = require('@discordjs/builders');
-const { Formatters, MessageEmbed } = require('discord.js');
+const { Formatters, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
     
     const items = await Shop.findAll();
     func.log(`opened the shop`, int, c)
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle('Shop')
       .setColor('#25c059')
       .setDescription('Consumables:\n' +

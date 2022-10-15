@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -9,7 +9,7 @@ module.exports = {
     const app = require('../app')
     const func = require('../resources/functions')
     const { UserItems, UserEffects, Enemy } = require('../dbobjects')
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`Duel`)
       .setColor('#25c059')
 

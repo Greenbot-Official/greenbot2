@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('inventory')
-    .setDescription("Shows Items in a Players' inventory.")
+    .setDescription("Shows items in a players' inventory.")
     .addUserOption(options =>
       options.setName('user')
         .setDescription('Targeted User')
@@ -16,7 +16,7 @@ module.exports = {
 
     let target = int.options.getUser('user') || int.user;
 
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`${target.username}'s Inventory`)
       .setColor('#25c059')
       .setThumbnail(target.displayAvatarURL())
@@ -44,6 +44,6 @@ module.exports = {
     func.log(`checked ${target.id}'s inventory`, int, c)
     
     embededd.setDescription('' + ctext + wtext + etext + wep)
-    return int.reply({ embeds: [embededd] })
+    return await int.reply({ embeds: [embededd] })
   },
 }

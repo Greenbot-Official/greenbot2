@@ -1,13 +1,13 @@
 const startTime = Date.now();
-const { Client, Collection, Intents } = require('discord.js')
+const { Client, Collection, GatewayIntentBits } = require('discord.js')
 const config = require('./config.json')
 const fs = require('fs');
 const { Users, Shop, UserEffects } = require('./dbobjects.js');
 const func = require('./resources/functions')
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { fileURLToPath } = require('url');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
+const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 client.commands = new Collection();
 client.enchants = new Collection();
 
@@ -29,7 +29,7 @@ for (var i = 0; i < config.admincommands.length; i++) {
   admincommands.push(config.admincommands[i]);
 }
 
-const embededd = new MessageEmbed()
+const embededd = new EmbedBuilder()
       .setTitle(`Error`)
       .setColor('#25c059')
 
@@ -62,7 +62,7 @@ client.on('interactionCreate', async int => {
   const command = client.commands.get(int.commandName);
 
   // create user
-  try {
+  // try {
     if (!user) {
         user = await Users.create({ user_id: int.user.id });
         userEffects = await UserEffects.create({ user_id: int.user.id })
@@ -77,9 +77,9 @@ client.on('interactionCreate', async int => {
       userEffects.save()
       func.logconsole(`initialized user ${int.user.id}`, client);
     }
-  } catch (e) {
-    return func.error(e, client)
-  }
+  // } catch (e) {
+  //   return func.error(e, client)
+  // }
 
   if (admincommands.includes(int.commandName) && !allowed.includes(int.user.id)) {
     func.log('attempted to use an unauthorized command', int, client);
@@ -156,7 +156,7 @@ client.once('ready', async () => {
     activity: { type: 'LISTENING', name: `${client.guilds.cache.size} servers. | ::help` }
   })
   // console.log(`${client.guilds.cache.map(guild => guild.name + '\n')}`)
-  const embededd = new MessageEmbed()
+  const embededd = new EmbedBuilder()
     .setTitle('Update')
     .setColor('#25c059')
     .setDescription('The bot is online!');

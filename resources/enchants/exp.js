@@ -1,6 +1,6 @@
 const func = require('../functions')
 const app = require('../../app')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   name: 'exp',
@@ -8,7 +8,7 @@ module.exports = {
     let rand = Math.round((Math.random() * 10) + 5)
     user.exp += Number(rand)
     user.save()
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle('Effects')
       .setColor('#25c059')
       .setDescription(`<@${int.user.id}> gained ${rand}XP!`)

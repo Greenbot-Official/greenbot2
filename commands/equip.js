@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,7 +14,7 @@ module.exports = {
     const func = require('../resources/functions')
     const { UserItems } = require('../dbobjects')
     const { Op } = require('sequelize');
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`Equip`)
       .setColor('#25c059')
 

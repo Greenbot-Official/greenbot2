@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -8,7 +8,7 @@ module.exports = {
   async execute(int, c) {
     const app = require('../app');
     const func = require('../resources/functions');
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle('Help')
       .setColor('#25c059')
       .setDescription(`/attack - Attacks your combat opponent!

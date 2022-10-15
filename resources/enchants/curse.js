@@ -1,6 +1,6 @@
 const func = require('../functions')
 const app = require('../../app')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   name: 'curse',
@@ -8,7 +8,7 @@ module.exports = {
     user.curse = true
     user.curse_time = Date.now()
     user.save()
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle('Effects')
       .setColor('#25c059')
       .setDescription(`Debuff 'Curse' added to <@${int.user.id}>!`)

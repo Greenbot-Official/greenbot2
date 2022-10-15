@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -9,10 +9,19 @@ module.exports = {
       options.setName('stat')
         .setDescription('Stat to level up')
         .setRequired(true)
-        .addChoice('health', 'h')
-        .addChoice('luck', 'l')
-        .addChoice('strength', 's')
-        .addChoice('dexterity', 'd'))
+        .addChoices({
+          name: 'health',
+          value: 'h'
+        }, {
+          name: 'luck',
+          value: 'l'
+        }, {
+          name: 'strength', 
+          value: 's'
+        }, {
+          name: 'dexterity',
+          value: 'd'
+        }))
     .addIntegerOption(options =>
       options.setName('amount')
         .setDescription('The number of times to level up')
@@ -20,7 +29,7 @@ module.exports = {
   async execute(int, c) {
     const app = require('../app')
     const func = require('../resources/functions')
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`Level`)
       .setColor('#25c059')
 

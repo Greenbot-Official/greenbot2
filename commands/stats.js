@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 // THIS IS COMPLETELY FUCKING BROKEN I LITERALLY WASTED ABOUT 5 HOURS OF MY LIFE TOTAL TRYING TO FIX IT BUT IT IS TOTALLY FUCKED
 // ok i actually just forgot to add a + between strings
@@ -36,7 +36,7 @@ module.exports = {
 
     func.log(`is checking the stats of ${target.id}`, int, c)
 
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`${target.username}'s Stats: \n`)
       .setColor('#25c059')
       .setDescription(`XP Level: ${user.level}, XP: ${user.exp}/${func.calclvl(user.level)}` + '\n' +

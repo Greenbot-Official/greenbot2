@@ -1,6 +1,6 @@
 const fs = require('fs');
 const config = require('../config.json');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { codeBlock } = require('@discordjs/builders');
 
 module.exports = {
@@ -26,9 +26,9 @@ module.exports = {
       text2 = text2.replace(`${config.coolids[x]}`, `${config.coolnames[x]}`)
       if (text2.includes(config.coolids[x])) console.log('name change failed')
     }
-    this.writetoarchive(`${client.ws.ping}ms ${Date.now()}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds\n`)
+    // this.writetoarchive(`${client.ws.ping}ms ${Date.now()}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds\n`)
     client.channels.cache.get(config.log_channel).send(codeBlock(`${client.ws.ping}ms <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds`))
-    return console.log(`${client.ws.ping}ms ${new Date(Date.now())}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds`);
+    // return console.log(`${client.ws.ping}ms ${new Date(Date.now())}: <console> - ${text2} in ${(Date.now() - int.createdAt) / 1000} seconds`);
   },
   // Date.now() % (Date.now() / 86400) = seconds since day started idk ill add eventually
   writetoarchive: function (text) {
@@ -52,7 +52,7 @@ module.exports = {
       user.level_points += Number(1)
       user.save()
       this.logconsole(`${user.user_id} leveled up`, client)
-      const embededd = new MessageEmbed()
+      const embededd = new EmbedBuilder()
       .setTitle(`Level Up`)
       .setColor('#25c059')
       .setDescription(`<@${int.user.id}> leveled up!`)
@@ -70,7 +70,7 @@ module.exports = {
     userEffects.save()
     this.clearStatus(userEffects)
     this.log(cause, int, client)
-    const embededd = new MessageEmbed()
+    const embededd = new EmbedBuilder()
       .setTitle(`Death`)
       .setColor('#25c059')
       .setDescription(`<@${user.user_id}> ${cause}`)
@@ -83,7 +83,7 @@ module.exports = {
       user.save()
       userEffects.save()
       if (userEffects.burn < 1) {
-        const embededd = new MessageEmbed()
+        const embededd = new EmbedBuilder()
         .setTitle(`Effects`)
         .setColor('#25c059')
         .setDescription(`Debuff 'On Fire' removed from <@${int.user.id}>`)
@@ -97,7 +97,7 @@ module.exports = {
       user.save()
       userEffects.save()
       if (userEffects.poison < 1) {
-        const embededd = new MessageEmbed()
+        const embededd = new EmbedBuilder()
         .setTitle(`Effects`)
         .setColor('#25c059')
         .setDescription(`Debuff 'Poison' removed from <@${int.user.id}>`)

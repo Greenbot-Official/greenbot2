@@ -12,18 +12,43 @@ module.exports = {
       options.setName('ench')
         .setDescription('enchantment for the item')
         .setRequired(true)
-        .addChoice('none', 'null')
-        .addChoice('antidote', 'antidote')
-        .addChoice('curse', 'curse')
-        .addChoice('curseremoval', 'curseremoval')
-        .addChoice('XP', 'exp')
-        .addChoice('fishing', 'fishing')
-        .addChoice('flame', 'flame')
-        .addChoice('mystery', 'mystery')
-        .addChoice('necrofire', 'necrofire')
-        .addChoice('poison', 'poison')
-        .addChoice('randomness', 'randomness')
-        .addChoice('water', 'water'))
+        .addChoices({
+          name: 'none',
+          value: 'null'
+        }, {
+          name: 'antidote',
+          value: 'antidote'
+        }, {
+          name: 'curse',
+          value: 'curse'
+        }, {
+          name: 'curseremoval',
+          value: 'curseremoval'
+        }, {
+          name: 'XP',
+          value: 'exp'
+        }, {
+          name: 'fishing',
+          value: 'fishing'
+        }, {
+          name: 'flame',
+          value: 'flame'
+        }, {
+          name: 'mystery',
+          value: 'mystery'
+        }, {
+          name: 'necrofire',
+          value: 'necrofire'
+        }, {
+          name: 'poison',
+          value: 'poision'
+        }, {
+          name: 'randomness',
+          value: 'randomness'
+        }, {
+          name: 'water',
+          value: 'water'
+        }))
     .addIntegerOption(options =>
       options.setName('damage')
         .setDescription('damage')
@@ -32,9 +57,16 @@ module.exports = {
       options.setName('attribute')
         .setDescription('sets the attribute')
         .setRequired(true)
-        .addChoice('none', 'None')
-        .addChoice('strength', 'Strength')
-        .addChoice('speed', 'Speed'))
+        .addChoices({
+          name: 'none',
+          value: 'None'
+        }, {
+          name: 'strength',
+          value: 'Strength'
+        }, {
+          name: 'speed',
+          value: 'Speed'
+        }))
     .addIntegerOption(options =>
       options.setName('dmgscale')
         .setDescription('the damage scale'))
