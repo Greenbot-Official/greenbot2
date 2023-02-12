@@ -12,7 +12,6 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   storage: 'database.sqlite',
 });
 
-
 const Users = require('./models/Users')(sequelize, Sequelize.DataTypes);
 const Shop = require('./models/Shop')(sequelize, Sequelize.DataTypes);
 const UserItems = require('./models/UserItems')(sequelize, Sequelize.DataTypes);
@@ -21,6 +20,11 @@ const Adventures = require('./models/Adventure')(sequelize, Sequelize.DataTypes)
 const PlayerShop = require('./models/PlayerShop')(sequelize, Sequelize.DataTypes)
 const QuestBoard = require('./models/QuestBoard')(sequelize, Sequelize.DataTypes)
 const Enemy = require('./models/Enemy')(sequelize, Sequelize.DataTypes)
+const Guild = require('./models/Warnings.js')(sequelize, Sequelize.DataTypes);
+const Badwords = require('./models/Badwords.js')(sequelize, Sequelize.DataTypes);
+const GuildSettings = require('./models/GuildSettings.js')(sequelize, Sequelize.DataTypes);
+const Punishments = require('./models/Punishments.js')(sequelize, Sequelize.DataTypes);
+Badwords.removeAttribute('id');
 
 
 sequelize.sync({ force }).then(async () => {
@@ -28,7 +32,7 @@ sequelize.sync({ force }).then(async () => {
     Shop.upsert({ name: 'Apple', cost: 15, type: 'c', heal: 1, desc: 'Heals one health' }),
     Shop.upsert({ name: 'Water', cost: 10, type: 'c', heal: 1, enchant: 'water', desc: "Removes the 'On Fire' debuff" }),
     Shop.upsert({ name: 'Bread', cost: 30, type: 'c', heal: 2, desc: 'Heals two health' }),
-    Shop.upsert({ name: 'Antidote', cost: 50, type: 'c', heal: 1, enchant: 'antidote', desc: 'Cures Poison' }),
+    Shop.upsert({ name: 'Antidote', cost: 50, type: 'c', heal: 1, enchant: 'antidote', desc: "Removes the 'Poison' debuff" }),
     Shop.upsert({ name: 'Fishing Potion', cost: 100, type: 'c', heal: 0, enchant: 'fishing', desc: 'Increases fishing ability' }),
     Shop.upsert({ name: 'XP Potion', cost: 125, type: 'c', heal: 1, enchant: 'exp', desc: '+10 XP' }),
     Shop.upsert({ name: 'Mysterious Brew', cost: 75, type: 'c', heal: 1, enchant: 'mystery', desc: 'Applies a random effect' }),
@@ -46,7 +50,7 @@ sequelize.sync({ force }).then(async () => {
   try {
     await Promise.all(shop);
 
-    console.log(`${new Date(Date.now())}: Database ${force ? 'reset' : 'synced'} in ${(Date.now() - startTime) / 1000} seconds.`);
+    console.log(`${new Date(Date.now())}: <console> - Database ${force ? 'reset' : 'synced'} in ${(Date.now() - startTime) / 1000} seconds.`);
 
     sequelize.close();
   } catch (e) {
