@@ -2,8 +2,6 @@ const func = require('../functions')
 const app = require('../../app')
 const { EmbedBuilder } = require('discord.js')
 
-// toby make all these take from the other ones
-
 module.exports = {
   name: 'mystery',
   async execute(int, userEffects, user) {
