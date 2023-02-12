@@ -109,7 +109,7 @@ client.on('interactionCreate', async int => {
       func.logconsole(`initialized user ${int.user.id}`, client);
     }
   // } catch (e) {
-  //   return func.error(e, client)
+  //   return await func.error(e, client)
   // }
 
   if (admincommands.includes(int.commandName) && !allowed.includes(int.user.id)) {
@@ -135,7 +135,7 @@ client.on('interactionCreate', async int => {
       }
     }
   } catch (error) {
-    func.error(error, client);
+    await func.error(error, client);
     embededd.setDescription('There was an error while executing this command!');
     return await int.reply({ embeds: [ embededd ], ephemeral: true });
   }
@@ -149,7 +149,7 @@ client.on('interactionCreate', async int => {
         user.curse_time = Date.now();
         user.save()
       } catch (e) {
-        func.error(e, c)
+        await func.error(e, c)
       }
     }
   }
@@ -163,20 +163,20 @@ client.on('interactionCreate', async int => {
 
   if (!command) return;
 
-  try {
+  // try {
     timestamps.set(int.user.id, int.createdAt);
     setTimeout(() => timestamps.delete(int.user.id), cooldownAmount);
     await command.execute(int, client);
     func.levelup(int, user, client)
-  } catch (error) {
-    func.error(error, client);
-    return await int.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(async error =>  {
-      if (error.name == 'INTERATION_ALREADY_REPLIED') {
-        await func.modError(error, int, client);
-      }
-      func.error(error, client)
-    });
-  }
+  // } catch (error) {
+  //   await func.error(error, client);
+  //   return await int.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(async error => {
+  //     if (error.name == 'INTERATION_ALREADY_REPLIED') {
+  //       await func.modError(error, int, client);
+  //     }
+  //     await func.error(error, client)
+  //   });
+  // }
   
 });
 
