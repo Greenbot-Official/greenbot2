@@ -35,7 +35,8 @@ module.exports = {
     const embededd = new MessageEmbed()
       .setTitle('Help')
       .setColor('#25c059')
-      .setDescription(`${description}`);
+      .setDescription(`${app.getCommands().map(cmd => `/${cmd.data.name} - ${cmd.data.name == 'help' ? 'Shows this screen' : cmd.data.description}.`).join('\n').replaceAll('undefined', 'No description set')}`)
+      // .setImage('https://i.imgur.com/lB3Hqi7.png');
 
     func.log(`got help`, int, c);
     await int.reply({ embeds: [embededd] });

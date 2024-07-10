@@ -154,7 +154,7 @@ client.on('interactionCreate', async int => {
     }
   }
   
-  const cause = func.updateEffects(int, user, userEffects)
+  const cause = await func.updateEffects(int, user, userEffects)
   if (user.health <= 0) {
     func.die(int, cause, user, userEffects, client)
   }
